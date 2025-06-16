@@ -92,8 +92,6 @@ graph TD
   API --> Redis[Redis Cache]
 
 
----
-
 Working mechanism:
 
 Frontend is access via nginx serving on node port 30002, which will request to backend on node port
