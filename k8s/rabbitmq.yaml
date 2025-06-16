@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbitmq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rabbitmq
+  template:
+    metadata:
+      labels:
+        app: rabbitmq
+    spec:
+      containers:
+        - name: rabbitmq
+          image: rabbitmq:3-management
+          ports:
+            - containerPort: 5672
+            - containerPort: 15672
+          volumeMounts:
+            - name: rabbitmq-init
+              mountPath: /docker-entrypoint-init.d/
+      volumes:
+        - name: rabbitmq-init
+          configMap:
+            name: rabbitmq-init
+            defaultMode: 0755
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq
+spec:
+  selector:
+    app: rabbitmq
+  ports:
+    - port: 5672
+      name: amqp
+    - port: 15672
+      name: management
+  type: NodePort
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rabbitmq-init
+data:
+  init-rabbitmq.sh: |
+    #!/bin/bash
+    rabbitmqctl add_user bijay bijay123
+    rabbitmqctl set_user_tags bijay administrator
+    rabbitmqctl set_permissions -p / bijay ".*" ".*" ".*"

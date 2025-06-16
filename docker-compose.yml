@@ -1,0 +1,42 @@
+version: "3.8"
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: demo
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"  # AMQP protocol
+      - "15672:15672" # Web Management UI
+    environment:
+      RABBITMQ_DEFAULT_USER: ajay
+      RABBITMQ_DEFAULT_PASSWORD: ajay123
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+
+  api:
+    build: ./backend/api
+    depends_on:
+      - rabbitmq
+      - redis
+      - postgres
+    ports:
+      - "8000:8000"
+
+  worker:
+    build: ./backend/worker
+    depends_on:
+      - rabbitmq
+      - redis
+      - postgres
