@@ -80,8 +80,6 @@ minikube service backend
 
 ```
 
----
-
 ```mermaid
 graph TD
   FE[Frontend: PReact] --> API[Backend API]
@@ -90,9 +88,9 @@ graph TD
   Worker --> MQ
   Worker --> DB
   API --> Redis[Redis Cache]
+```
 
-
-Working mechanism:
+## Working mechanism:
 
 Frontend is access via nginx serving on node port 30002, which will request to backend on node port
 30001, node port is used to expose services for the local machine. In production, use Load Balancer
@@ -100,7 +98,6 @@ and ingress controller which will route traffic to specific service without expo
 publicly. User will use Load Balancer IP/DNS to visit the website in cloud based hosting environment.
 
 ---
-
 
 🧠 Learnings
 This project demonstrates:
@@ -114,4 +111,7 @@ This project demonstrates:
 🚢 End-to-end deployment using kubectl apply
 
 📬 Message-driven architecture pattern in practice
+
+```
+
 ```
