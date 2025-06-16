@@ -99,7 +99,8 @@ publicly. User will use Load Balancer IP/DNS to visit the website in cloud based
 
 ---
 
-🧠 Learnings
+## 🧠 Learnings
+
 This project demonstrates:
 
 ☸️ Kubernetes service orchestration in Minikube
@@ -111,7 +112,3 @@ This project demonstrates:
 🚢 End-to-end deployment using kubectl apply
 
 📬 Message-driven architecture pattern in practice
-
-```
-
-```
